@@ -1,3 +1,4 @@
+
 def test():
     assert len(squares) == 81
     assert len(unitlist) == 27
@@ -13,6 +14,7 @@ def cross(A, B):
 
 def grid_values(grid):
     chars = [c for c in grid if c in digits or c in '0.']
+    assert len(chars) == 81
     return dict(zip(squares, chars))
 
 def parse_grid(grid):
@@ -32,6 +34,7 @@ def assign(values, s, d):
 def solve(grid):
     return search(parse_grid(grid))
 
+
 def search(values):
     if values is False:
         return False
@@ -42,9 +45,8 @@ def search(values):
 
 def some(seq):
     for e in seq:
-        if e:
-            return e
-        return False
+        if e: return e
+    return False
 
 def eliminate(values, s, d):
     if d not in values[s]:
@@ -76,7 +78,6 @@ def display(grid):
         if r == "C" or r == "F":
             print("------+------+------")
     
-
 digits = '123456789'
 rows = 'ABCDEFGHI'
 cols = digits
@@ -89,5 +90,6 @@ units = dict((s, [u for u in unitlist if s in u]) for s in squares)
 peers = dict((s, set(sum(units[s], [])) - set([s])) for s in squares)
 #print(peers)
 #test()
-grid = "....2347.....8......9.4.5...73..5..........2...6.1..4.1....8..45......1....9..68."
+grid = ".....6....59.....82....8....45........3........6..3.54...325..6.................."
+print(len(grid))
 display(solve(grid))
