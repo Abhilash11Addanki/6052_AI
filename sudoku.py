@@ -21,23 +21,23 @@ def solved(values):
         return set(values[s] for s in unit) == set(digits)
     return values is not False and all(unitsolved(unit) for unit in unitlist)
 
-def from_file(filename, sep='\n'):
-    return file(filename).read().strip().split(sep)
+# def from_file(filename, sep='\n'):
+#     return file(filename).read().strip().split(sep)
 
-def random_puzzle(N=17):
-    values = dict((s, digits) for s in squares)
-    for s in shuffled(squares):
-        if not assign(values, s, random.choice(values[s])):
-            break
-        ds = [values[s] for s in squares if len(values[s]) == 1]
-        if len(ds) >= N and len(set(ds)) >= 8:
-            return ''.join(values[s] if len(values[s]) == 1 else '.' for s in squares)
-        return random_puzzle(N)
+# def random_puzzle(N=17):
+#     values = dict((s, digits) for s in squares)
+#     for s in shuffled(squares):
+#         if not assign(values, s, random.choice(values[s])):
+#             break
+#         ds = [values[s] for s in squares if len(values[s]) == 1]
+#         if len(ds) >= N and len(set(ds)) >= 8:
+#             return ''.join(values[s] if len(values[s]) == 1 else '.' for s in squares)
+#         return random_puzzle(N)
 
-def shuffled(seq):
-    seq = list(seq)
-    random.shuffle(seq)
-    return seq
+# def shuffled(seq):
+#     seq = list(seq)
+#     random.shuffle(seq)
+#     return seq
 def test():
     assert len(squares) == 81
     assert len(unitlist) == 27
