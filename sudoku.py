@@ -1,4 +1,4 @@
-import time, random
+import time, random, sys
 
 def solve_all(grids, name = '', showif= 0.0):
     def time_solve(grid):
@@ -6,8 +6,10 @@ def solve_all(grids, name = '', showif= 0.0):
         values = solve(grid)
         t = time.perf_counter()-start
         if showif is not None and t > showif:
+            print("Given sudoku is:")
             display(grid_values(grid))
             if values:
+                print("Solved sudoku is:")
                 display(values)
             print('(%.2f seconds)\n' % t)
         return (t, solved(values))
@@ -51,6 +53,12 @@ def test():
 def cross(A, B):
     return [a+b for a in A for b in B]
 
+def crossdiag(A, B):
+    return [rows[i]+cols[i] for i in range(0,len(rows))]
+
+def crossrevdiag(A, B):
+    return [rows[i]+cols[8-i] for i in range(0,len(rows))]
+    
 def grid_values(grid):
     chars = [c for c in grid if c in digits or c in '0.']
     assert len(chars) == 81
@@ -116,20 +124,23 @@ def display(grid):
         print(s)
         if r == "C" or r == "F":
             print("------+------+------")
-    
+
 digits = '123456789'
 rows = 'ABCDEFGHI'
 cols = digits
 squares = cross(rows, cols)
 #print(squares)
-unitlist = [cross(rows, c) for c in cols]+[cross(r, cols) for r in rows]+[cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+unitlist = [cross(rows, c) for c in cols]+[cross(r, cols) for r in rows]+[cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]+[crossdiag(rows, cols)]+[crossrevdiag(rows, cols)]
 #print(unitlist)
 units = dict((s, [u for u in unitlist if s in u]) for s in squares)
 #print(units)
 peers = dict((s, set(sum(units[s], [])) - set([s])) for s in squares)
 #print(peers)
 #test()
-grid = "85...24..72......9..4.........1.7..23.5...9...4...........8..7..17..........36.4."
-print(len(grid))
+grid1 = "5.1....9...4.....29....8..5....8..41..7..4..8.4......9.1......6..5.4.....36......"
+grid2 = ".3.84.......9.......5......25...748...1....3..73.....1.4.........86..9..9........"
+#print(len(grid))
 #display(solve(grid))
-solve_all([grid])
+solve_all([grid1])
+solve_all([grid2])
+# solve_all([random_puzzle() for _ in range(99)], "random", 100.0)
